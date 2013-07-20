@@ -1,24 +1,24 @@
 @font-face
 {
   font-family: comfortaa;
-  src: url('../fonts/comfortaa.ttf') format('truetype'),
-       url('../fonts/comfortaa.eot') format('embedded-opentype');
+  src: url('../assets/fonts/comfortaa.ttf') format('truetype'),
+       url('../assets//comfortaa.eot') format('embedded-opentype');
 }
 @font-face
 {
   font-family: comfortaa;
-  src: url('../fonts/comfortaa_bold.ttf') format('truetype');
+  src: url('../assets/fonts/comfortaa_bold.ttf') format('truetype');
   font-weight:bold;
 }
 @font-face
 {
   font-family: comfortaa;
-  src: url('../fonts/comfortaa_light.ttf') format('truetype');
+  src: url('../assets/fonts/comfortaa_light.ttf') format('truetype');
   font-style:italic;
 }
 body
 {
-  background-image:url('../images/shattered.png');
+  background-image:url('../assets/images/shattered.png');
 }
 
 #page-container{
