@@ -15,26 +15,25 @@ $_SESSION['auth'] = KEY;
 <html>
   <head>
     <link rel="stylesheet" href="view/redalytics.css">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png" />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
     <title>Redalytics</title>
   </head>
   <body>
     <div id="page-container">
 
       <div id="title-container">
-        <p>Redalytics</p>
+        <a href="index.php">Redalytics</a>
         <input type="search" placeholder="Search user history" />
       </div>
 
       <div id="side-menu-container">
         <ul class="side-menu">
-          <li>User</li>
-          <li>Overview</li>
-          <li>Subreddits</li>
+          <li onclick="getView(this.innerHTML);">Overview</li>
+          <li onclick="getView(this.innerHTML);">Subreddits</li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
-          <li>Charts</li>
+          <li onclick="getView(this.innerHTML);">Charts</li>
         </ul>
       </div>
 
@@ -49,7 +48,7 @@ $_SESSION['auth'] = KEY;
         </div>
 
         <div id="status" style="visibility:hidden">
-          <p id="post-count"><img id="loading" src="../assets/images/loading.gif" /></p>
+          <p id="post-count"><img id="loading" src="assets/images/loading.gif" /></p>
           <p id="progress-details">Posts analyzed so far...</p>
         </div>
       </div>

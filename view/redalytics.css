@@ -35,16 +35,18 @@ body
   margin-top: 25px;
 }
 
-#title-container p{
+#title-container a{
   font-size:160%;
-  width: 150px;
+  width: 200px;
   height: 50px;
   line-height: 200%;
   text-align: center;
-  background-color: #598282;
+  background-color: #77ad77;
   margin: 0;
   color: #f9f9f9;
   float: left;
+  text-decoration: none;
+
 }
 #title-container input{
   float: right;
@@ -54,7 +56,7 @@ body
 #side-menu-container{
   margin: 0;
   padding: 0;
-  width: 150px;
+  width: 200px;
   float: left;
 }
 
@@ -65,22 +67,25 @@ body
 }
 
 .side-menu li{
-  width: 140px;
+  width: 180px;
   height: 30px;
   padding: 10px 0 0 10px;
   background-color: #666;
+  border: 5px solid #666;
   color: #f9f9f9;
+
 }
 .side-menu li:hover{
-  background-color: #666; 
+  background-color: #77ad77; 
+  border: 5px solid #666;
   cursor: pointer;
 }
 
 #user-page{
   padding: 0;
   margin: 0;
-  width: 850px;
-  height: 800px;
+  width: 800px;
+  height: 950px;
   background-color: #f9f9f9;
   float: right;
 }
@@ -125,7 +130,7 @@ body
 }
 
 #analyze-button{
-  background-color: #598282;
+  background-color: #77ad77;
   font-family: comfortaa;
   color: #f9f9f9;
   cursor: pointer;
@@ -187,7 +192,7 @@ body
   text-align: center;
   margin: 0 0 -10px 0;
   padding: 0;
-  color: #598282;
+  color: #77ad77;
 }
 
 #center{
@@ -197,13 +202,25 @@ body
   padding: 0;
   margin: 0;
 }
-#subreddit-menu li{
-  width: 140px;
+#sub-menu-table{
+  width: 200px;
   height: 20px;
-  padding: 5px 0 0 15px;
-  background-color: #aaa;
-  color: #f9f9f9;
-  list-style-type: none;
+  background-color: #f9f9f9;
+  color: #666;
   font-size: 80%;
-  margin-right: -5px;
+}
+
+#sub-menu-table tr:hover{
+  background-color: #77ad77;
+  margin-left: 5px;
+  color: #f9f9f9;
+  cursor:pointer;
+}
+#sub-menu-table .sub{
+  width: 145px;
+  padding-left: 15px;
+}
+
+#sub-menu-table .count{
+  width: 40px;
 }

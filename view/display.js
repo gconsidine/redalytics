@@ -34,10 +34,12 @@ function displayErrorMessage(message){
 
 function displaySubredditMenu(){
   
-  var menu = '';
+  var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
-    menu += '<li>' + sub + ' [' + Subreddits[sub] + ']</li>';
+    menu += '<tr onclick="getView(\'subreddit\', \'' + sub + '\');">'
+          + '<td class="sub">' + sub + '</td><td class="count">' + Subreddits[sub] + '</td><tr>';
   }
+  menu += '</table>';
 
   document.getElementById('subreddit-menu').innerHTML = menu;
   document.getElementById('subreddit-menu').style.height = '100%';
@@ -46,3 +48,4 @@ function displaySubredditMenu(){
 function hideErrorMessage(){
   document.getElementById('error-message').style.visibility = 'hidden';
 }
+

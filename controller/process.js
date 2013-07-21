@@ -19,7 +19,7 @@ function prepare(){
   }
   else{
     displayStatus();
-    displayProgressDetails('Posts analyzed so far...');
+    displayProgressDetails('posts analyzed so far...');
     User.stop = false;
     getPage('first', userName);
   }
@@ -42,7 +42,7 @@ function updateUser(response, pageType){
   if(pageType === 'first'){
     
     if(json['userExists'] === false){
-      displayErrorMessage('User does not exist');
+      displayErrorMessage('User does not exist.');
       hideStatus();
       return false;
     }
@@ -69,7 +69,7 @@ function updateUser(response, pageType){
   }
   else{
     User.stop = true;
-    displayProgressDetails('Posts Analyzed.');
+    displayProgressDetails('posts analyzed.');
     displayAllData();
     populateSubreddits();
     displaySubredditMenu();
@@ -100,10 +100,10 @@ function keyCheck(e){
 function stop(){  
   if(User.stop === false){
     User.stop = true;
-    displayErrorMessage('Stopped');
+    displayErrorMessage('Stopped.');
   }
   else{
-    displayErrorMessage('Nothing to stop');
+    displayErrorMessage('Nothing to stop.');
   }
 }
 
@@ -130,3 +130,8 @@ function populateSubreddits(){
   console.log(Subreddits);
 }
 
+function getView(view, subView){
+  if(User.postCount === undefined || User.postCount === 0){
+    displayErrorMessage('This thing doesn\'t work unless you "analyze" a user first.');      
+  }
+}
