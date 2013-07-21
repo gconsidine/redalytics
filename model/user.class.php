@@ -1,8 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 include_once '../libraries/simple_html_dom.php';
 
+/* Contains a user's data while a user's post history page is being scraped. */
 class User
 {
   private $html;
@@ -15,6 +14,10 @@ class User
   private $allPosts;
   private $linkToNextPage;
   
+  /* 
+   * Attempts to scrape the user's first page of post history.  If the user
+   * doesn't exist, then the scraper won't continue.
+   */
   public function scrapeFirstPage($name)
   {
     $this->name = $name;
@@ -37,7 +40,11 @@ class User
     $this->getLinkToNextPage($firstPage);
     $this->returnUpdate($firstPage);
   }
-
+  
+  /* 
+   * Scrapes relevant information on the page and returns the link to the
+   * next page of posts if it exists.
+   */
   public function scrapePage($link)
   {
     $link = urldecode($link);
@@ -48,7 +55,12 @@ class User
     $this->getLinkToNextPage();
     $this->returnUpdate();
   }
-
+  
+  /* 
+   * Specific user info is present only on the first page, stuff like 
+   * trophies, total link karma, and total comment karma. This is only called
+   * once.
+   */
   private function getUserInfo()
   {
     $this->linkKarma = $this->html->find('.karma', 0)->innertext;
@@ -66,7 +78,12 @@ class User
       $this->memberSince = $matches[0];
     }
   }
-
+  
+  /*
+   * Scrapes over a user's page of post history post by post.  Depending on
+   * what kind of post is being scraped (link, self, comment), a particular 
+   * function is called to gather the relevant information.
+   */
   private function getPageData()
   {
     foreach($this->html->find('#siteTable') as $table)
@@ -93,7 +110,8 @@ class User
     $this->pageCount++;
     $this->getLinkToNextPage();
   }
-
+  
+  /* Scrapes a 'comment' post and adds relevant data to an array */
   private function getComment($comment)
   {
     $post = array();
@@ -127,7 +145,8 @@ class User
     
     $this->allPosts[] = $post;
   }
-
+  
+  /* Scrapes a self post */
   private function getSelfPost($self)
   {
     $post = array();
@@ -168,7 +187,8 @@ class User
     
     $this->allPosts[] = $post;
   }
-
+  
+  /* Scrapes a 'link' post.  Also grabs thumbnail link */
   private function getLinkPost($link)
   {
     $post = array();
@@ -210,7 +230,11 @@ class User
     $this->allPosts[] = $post;
 
   }
-
+  
+  /* 
+   * Grabs the link to the next page of posts, or leaves the linkToNextPage
+   * variable set to null
+   */
   private function getLinkToNextPage($firstPage = false)
   {
     $this->linkToNextPage = null;
@@ -237,6 +261,7 @@ class User
     }
   }
   
+  /* Combines all of the scraped data and echos it back to JavaScript */
   private function returnUpdate($firstPage = false)
   {
     if($firstPage)
@@ -264,7 +289,8 @@ class User
       echo json_encode($allData);
     }
   }
-
+  
+  /* Check to see if the URL exists before attempting to scrape it */
   private function urlExists($url)
   {
     $headers = get_headers($url);

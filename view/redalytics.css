@@ -81,7 +81,7 @@ body
   cursor: pointer;
 }
 
-#user-page{
+#home-page{
   padding: 0;
   margin: 0;
   width: 800px;
@@ -90,7 +90,7 @@ body
   float: right;
 }
 
-#user-page h2{
+#home-page h2{
   text-align: center; 
   color: #333;
   margin-top: 10%;
@@ -148,6 +148,7 @@ body
   margin-top: 10px;
   margin-bottom: 0;
   font-size: 80%;
+  height: 20px;
 }
 
 #stop-button{
@@ -223,4 +224,19 @@ body
 
 #sub-menu-table .count{
   width: 40px;
+}
+
+#loading-overlay{
+  background-color: #f9f9f9;
+  width: 800px;
+  height: 900px;
+  float: right;
+}
+
+#loading-overlay-status{
+  text-align: center;
+}
+#loading-overlay-gif{
+  text-align: center;
+  margin-top: 20%;
 }

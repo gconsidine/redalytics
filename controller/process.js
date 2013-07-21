@@ -107,6 +107,12 @@ function stop(){
   }
 }
 
+/* 
+ * Loops through the the user's posts and populates a Subreddits object
+ * consiting of a subreddit name as a property which maps to a corresponding
+ * count of posts in that subreddit.  This object is used to generate the
+ * subreddit sub-menu.
+ */
 function populateSubreddits(){
 
   var i = 0;
@@ -130,8 +136,50 @@ function populateSubreddits(){
   console.log(Subreddits);
 }
 
+/*
+ * After the page is scraped, the user's post data is only stored client side.
+ * To avoid page loads and make things more speedy, the DOM is just manipulted
+ * to show the information the user wants to see while hiding the information
+ * the user was just looking at.  An intermediary loading overlay is used while
+ * the new view is readied.
+ */
 function getView(view, subView){
   if(User.postCount === undefined || User.postCount === 0){
     displayErrorMessage('This thing doesn\'t work unless you "analyze" a user first.');      
+  }
+  else{
+
+    if(User.currentView === undefined){
+      User.currentViewId = 'home-page'; 
+    }
+
+    switch(view){
+      
+      case 'Overview':
+        showLoadingOverlay(User.currentViewId); 
+        User.currentViewId = 'overview-page';
+        //call function to arrange data
+        //call function to display data
+        //call hideLoadingOverlay
+        break;
+      case 'Subreddits':
+        showLoadingOverlay(User.currentViewId);
+        User.currentViewId = 'subreddits-page';
+        break;
+      case 'subreddit':
+        showLoadingOverlay(User.currentViewId);
+        User.currentViewId = 'specific-sub-page';
+        break;
+      case 'Charts':
+        showLoadingOverlay(User.currentViewId);
+        User.currentViewId = 'charts-page';
+        break;
+      case 'Search':
+        showLoadingOverlay(User.currentViewId);
+        User.currentViewId = 'search-page';
+        break;
+      default:
+        break;
+    }
   }
 }

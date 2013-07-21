@@ -1,9 +1,12 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 require_once '../config/config.inc.php';
 require_once '../model/user.class.php';
 
+/* 
+ * A quick check to see if the authentication key was set at the home page
+ * before attempting to access this script.  If the key isn't matched or set,
+ * then the user/bot will be directed to a random wikipedia page.
+ */
 if(!isset($_SESSION))
 {
   session_start();
@@ -13,6 +16,10 @@ if($_SESSION['auth'] !== KEY)
   header('Location: https://en.wikipedia.org/wiki/Special:Random');
 }
 
+/* 
+ * Re-validates the user name upon first call, and gets the first page if
+ * user name is valid.  For subsequent pages, validation isn't necessary.
+ */
 if(isset($_POST['page']))
 {
   switch($_POST['page'])
@@ -37,6 +44,7 @@ if(isset($_POST['page']))
   }
 }
 
+/* Validates the format of the user name */
 function validateUserName($user)
 {
   $pattern = '/^[\w-_]{3,20}$/';
