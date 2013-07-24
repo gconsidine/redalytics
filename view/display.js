@@ -45,7 +45,7 @@ function displaySubredditMenu(){
   
   var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
-    menu += '<tr onclick="getView(\'subreddit\', \'' + sub + '\');">'
+    menu += '<tr onclick="readyView(\'Subreddits\', \'' + sub + '\');">'
           + '<td class="sub">' + sub + '</td><td class="count">' + Subreddits[sub] + '</td><tr>';
   }
   menu += '</table>';

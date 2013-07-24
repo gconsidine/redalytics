@@ -132,8 +132,6 @@ function populateSubreddits(){
 
     i++;
   }
-
-  console.log(Subreddits);
 }
 
 /*
@@ -143,7 +141,7 @@ function populateSubreddits(){
  * the user was just looking at.  An intermediary loading overlay is used while
  * the new view is readied.
  */
-function getView(view, subView){
+function readyView(view, subView){
   if(User.postCount === undefined || User.postCount === 0){
     displayErrorMessage('This thing doesn\'t work unless you "analyze" a user first.');      
   }
@@ -165,6 +163,9 @@ function getView(view, subView){
       case 'Subreddits':
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'subreddits-page';
+        readyPostsFromSubreddit(subView);
+        //Call function to display data
+        //call hideLoadingOverlay
         break;
       case 'subreddit':
         showLoadingOverlay(User.currentViewId);
@@ -183,3 +184,55 @@ function getView(view, subView){
     }
   }
 }
+
+function readyPostsFromSubreddit(subreddit){
+  
+  var Posts = {};
+
+  var i = 0,
+      j = 0,
+      k = 0;
+  while(User[i] instanceof Object){
+    j = 0;
+    while(User[i][j] instanceof Object){
+
+      if(subreddit === 'all'){
+        Posts[k] = loadPost(User[i][j].postType, User[i][j]);
+      }
+      else if(subreddit === User[i][j].subreddit){
+        Posts[k] = loadPost(User[i][j].postType, User[i][j]);
+      }
+      j++;
+      k++;
+    }
+    i++;
+  }
+
+  console.log(Posts);
+}
+
+function loadPost(type, Post){
+  var Temp = {
+    user : User.author,
+    title : Post.title,
+    author : Post.author,
+    sub : Post.subreddit,
+    karma : Post.karma,
+    time : Post.time,
+    fullComments : Post.fullComments
+  };
+
+  switch(type){
+    case 'comment':
+      Temp.comment = Post.userComment;
+      break;
+    case 'link':
+      Temp.thumbnail = Post.thumbnail;
+      break;
+    default:
+      break;
+  }
+
+  return Temp;
+}
+

@@ -195,7 +195,7 @@ class User
 
     foreach($link->find('.midcol') as $midcol)
     {
-      $post['postType'] = 'submission';
+      $post['postType'] = 'link';
       $post['comment'] = null;
 
       if($midcol->find('.score', 1))

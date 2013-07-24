@@ -30,12 +30,12 @@ $_SESSION['auth'] = KEY;
       
       <div id="side-menu-container">
         <ul class="side-menu">
-          <li onclick="getView(this.innerHTML);">Overview</li>
-          <li onclick="getView(this.innerHTML);">Subreddits</li>
+          <li onclick="readyView(this.innerHTML);">Overview</li>
+          <li onclick="readyView(this.innerHTML, 'all');">Subreddits</li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
-          <li onclick="getView(this.innerHTML);">Charts</li>
+          <li onclick="readyView(this.innerHTML);">Charts</li>
         </ul>
       </div>
       <!-- End Menu -->
@@ -70,7 +70,9 @@ $_SESSION['auth'] = KEY;
       <!-- End overview page -->
 
       <!-- Subreddits page -->
-      <div id="subreddits-page"></div>
+      <div id="subreddits-page">
+        <h2>All Subredits</h2>
+      </div>
       <!-- End subreddit page -->
 
       <!-- Specific Sub page -->
