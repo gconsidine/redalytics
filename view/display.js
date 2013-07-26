@@ -67,8 +67,41 @@ function showLoadingOverlay(currentViewId){
   document.getElementById('loading-overlay-gif').innerHTML = '<img src="assets/images/loading.gif" />';
 }
 
-/* Hide the loading overlay and show the new view */
-function hideLoadingOverlay(show){
+function displaySubredditPosts(Posts, subView){
+  
+  var title = '<h3>' + subView + ' posts</h3>';
+  var postHtmlString = '';
 
+  var i = 0;
+  while(Posts[i] instanceof Object){
+    var thumbnail = '';
+    
+    if(Posts[i].postType === 'link'){
+      postHtmlString += Posts[i].thumbnail; 
+    }
+
+    postHtmlString += '<div class="post">' + Posts[i].title + ' by ' 
+                   + '<a class="user" href="reddit.com/u/' + Posts[i].author + '">'
+                   + Posts[i].author + '</a> in <a class="sub" href="reddit.com/r/' + Posts[i].sub + '">'
+                   + Posts[i].sub + '</a><p class="post-info"><a class="user" href="reddit.com/u/' 
+                   + User.name + '">' + User.name + '</a> ' + Posts[i].karma + ' '
+                   + Posts[i].time.replace('T', ' ') + '</p>';
+
+    if(Posts[i].postType === 'comment'){
+      postHtmlString += '<p class="post-comment">' + Posts[i].comment + '</p>'; 
+    }
+    
+    postHtmlString += '<p class="full-comments">' + Posts[i].fullComments + '</p>'
+                   + '</div><div style="clear:both"></div>';
+    i++;  
+  }
+
+  document.getElementById('subreddits-page').innerHTML = title + postHtmlString;
+}
+
+/* Hide the loading overlay and show the new view */
+function hideLoadingOverlay(currentViewId){
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById(currentViewId).style.display = 'block';
 }
 

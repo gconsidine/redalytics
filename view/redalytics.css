@@ -85,7 +85,7 @@ body
   padding: 0;
   margin: 0;
   width: 800px;
-  height: 950px;
+  min-height: 950px;
   background-color: #f9f9f9;
   float: right;
 }
@@ -246,7 +246,45 @@ body
   padding: 0;
   margin: 0;
   width: 800px;
-  height: 950px;
+  min-height: 950px;
   background-color: #f9f9f9;
   float: right;
+}
+#subreddits-page h3{
+  margin: 20px 10px 20px 10px;
+  padding-left: 20px;
+  color: #666;
+  padding-bottom: 10px;
+  text-align: center;
+}
+#subreddits-page a{
+  text-decoration: none;
+  target-new: tab;
+}
+.user{
+  color: #598282;
+  font-size: 80%;
+  font-weight: bold;
+} 
+
+.post{
+  font-size: 80%;
+  margin: 10px;
+}
+.post-info{
+  margin-top: 0px;
+  color: #666;
+  margin-left: 20px;
+}
+.post-comment{
+  margin-left: 20px;
+}
+.thumbnail{
+  float: left;
+  padding: 0 10px 10px 10px;
+}
+.full-comments a{
+  color: #598282;
+  font-size: 90%;
+  margin-left: 20px;
 }

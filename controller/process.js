@@ -163,9 +163,9 @@ function readyView(view, subView){
       case 'Subreddits':
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'subreddits-page';
-        readyPostsFromSubreddit(subView);
-        //Call function to display data
-        //call hideLoadingOverlay
+        var Posts = readyPostsFromSubreddit(subView);
+        displaySubredditPosts(Posts, subView);
+        hideLoadingOverlay(User.currentViewId);
         break;
       case 'subreddit':
         showLoadingOverlay(User.currentViewId);
@@ -185,6 +185,12 @@ function readyView(view, subView){
   }
 }
 
+/*
+ * Loops through the User object and creates a new object filled with all the
+ * posts the user has ever made for a given subreddit.  This Posts object is
+ * then passed to the displaySubredditPosts() function to add HTML and display
+ * on the page.
+ */
 function readyPostsFromSubreddit(subreddit){
   
   var Posts = {};
@@ -198,28 +204,34 @@ function readyPostsFromSubreddit(subreddit){
 
       if(subreddit === 'all'){
         Posts[k] = loadPost(User[i][j].postType, User[i][j]);
+        k++;
       }
       else if(subreddit === User[i][j].subreddit){
         Posts[k] = loadPost(User[i][j].postType, User[i][j]);
+        k++;
       }
       j++;
-      k++;
     }
     i++;
   }
 
-  console.log(Posts);
+  return Posts;
 }
 
+/* 
+ * Loads an individual post into an object and then returns the result to be
+ * added to Posts, which is a collection of individual posts populated with
+ * this function.
+ */
 function loadPost(type, Post){
   var Temp = {
-    user : User.author,
     title : Post.title,
     author : Post.author,
     sub : Post.subreddit,
     karma : Post.karma,
     time : Post.time,
-    fullComments : Post.fullComments
+    fullComments : Post.fullComments,
+    postType : Post.postType
   };
 
   switch(type){
@@ -227,7 +239,12 @@ function loadPost(type, Post){
       Temp.comment = Post.userComment;
       break;
     case 'link':
-      Temp.thumbnail = Post.thumbnail;
+      if(Post.thumbnail.indexOf('redditmedia') !== -1){
+        Temp.thumbnail = Post.thumbnail;
+      }
+      else{
+        Temp.thumbnail = '';
+      }
       break;
     default:
       break;

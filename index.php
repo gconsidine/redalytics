@@ -71,13 +71,8 @@ $_SESSION['auth'] = KEY;
 
       <!-- Subreddits page -->
       <div id="subreddits-page">
-        <h2>All Subredits</h2>
       </div>
       <!-- End subreddit page -->
-
-      <!-- Specific Sub page -->
-      <div id="specific-sub-page"></div>
-      <!-- End Specific sub page -->
 
       <!-- Chart page -->
       <div id="chart-page"></div>
