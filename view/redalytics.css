@@ -249,14 +249,34 @@ body
   min-height: 950px;
   background-color: #f9f9f9;
   float: right;
+  font-family: arial;
 }
-#subreddits-page h3{
-  margin: 20px 10px 20px 10px;
-  padding-left: 20px;
+#subreddits-page .subreddit-title{
+  margin: 20px 10px 0 10px;
   color: #666;
-  padding-bottom: 10px;
+  font-size: 200%;
   text-align: center;
 }
+#subreddits-page .subreddit-sub-menu{
+  text-align: center;
+  color: #666;
+  margin: -3px 15px 20px 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
+#subreddits-page .subreddit-sub-menu a{
+  color: #77ad77;
+  font-family: comfortaa;
+  cursor: pointer;
+}
+
+.image-container{
+  float: left;
+  width: 80px;
+  height: 80px;
+  padding: 0 10px 0 20px;
+}
+
 #subreddits-page a{
   text-decoration: none;
   target-new: tab;
@@ -269,7 +289,7 @@ body
 
 .post{
   font-size: 80%;
-  margin: 10px;
+  margin: 0px 10px 25px 20px;
 }
 .post-info{
   margin-top: 0px;
@@ -278,10 +298,11 @@ body
 }
 .post-comment{
   margin-left: 20px;
+  margin-top: -10px;
 }
-.thumbnail{
-  float: left;
-  padding: 0 10px 10px 10px;
+
+.full-comments{
+  margin-top: -10px;
 }
 .full-comments a{
   color: #598282;

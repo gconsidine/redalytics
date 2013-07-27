@@ -45,7 +45,7 @@ function displaySubredditMenu(){
   
   var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
-    menu += '<tr onclick="readyView(\'Subreddits\', \'' + sub + '\');">'
+    menu += '<tr onclick="readyView(\'Subreddits\', \'' + sub + '\', \'all\');">'
           + '<td class="sub">' + sub + '</td><td class="count">' + Subreddits[sub] + '</td><tr>';
   }
   menu += '</table>';
@@ -67,32 +67,48 @@ function showLoadingOverlay(currentViewId){
   document.getElementById('loading-overlay-gif').innerHTML = '<img src="assets/images/loading.gif" />';
 }
 
-function displaySubredditPosts(Posts, subView){
+function displaySubredditPosts(Posts, subView, type){
   
-  var title = '<h3>' + subView + ' posts</h3>';
-  var postHtmlString = '';
-
+  var title = '<p class="subreddit-title">' + subView + ' posts</p>'
+            + '<p class="subreddit-sub-menu">'
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'all\');"\>All</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'comment\');"\>Comments</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'submission\');"\>Self Posts</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'link\');"\>Links</a>';
+            
+  var postHtmlString = '<div style="clear:both"></div>';
   var i = 0;
   while(Posts[i] instanceof Object){
-    var thumbnail = '';
-    
-    if(Posts[i].postType === 'link'){
-      postHtmlString += Posts[i].thumbnail; 
-    }
 
-    postHtmlString += '<div class="post">' + Posts[i].title + ' by ' 
-                   + '<a class="user" href="reddit.com/u/' + Posts[i].author + '">'
-                   + Posts[i].author + '</a> in <a class="sub" href="reddit.com/r/' + Posts[i].sub + '">'
-                   + Posts[i].sub + '</a><p class="post-info"><a class="user" href="reddit.com/u/' 
-                   + User.name + '">' + User.name + '</a> ' + Posts[i].karma + ' '
-                   + Posts[i].time.replace('T', ' ') + '</p>';
+    if(type === 'all' || type === Posts[i].postType){
 
-    if(Posts[i].postType === 'comment'){
-      postHtmlString += '<p class="post-comment">' + Posts[i].comment + '</p>'; 
+      var thumbnail = '';
+      if(Posts[i].postType === 'link'){
+        postHtmlString += '<div class="image-container">' + Posts[i].thumbnail + '</div>'; 
+      }
+
+      postHtmlString += '<div class="post">' + Posts[i].title + ' by ' 
+                     + '<a class="user" href="reddit.com/u/' + Posts[i].author + '">'
+                     + Posts[i].author + '</a> in <a class="sub" href="reddit.com/r/' + Posts[i].sub + '">'
+                     + Posts[i].sub + '</a><p class="post-info"><a class="user" href="reddit.com/u/' 
+                     + User.name + '">' + User.name + '</a> ';
+      
+      if(Posts[i].postType === 'link' || Posts[i].postType === 'submission'){
+        postHtmlString += Posts[i].karma + ' points ';
+      }
+      else{
+        postHtmlString += Posts[i].karma + ' ';
+      }
+
+      postHtmlString += Posts[i].time.substr(0, 10) + '</p>';
+
+      if(Posts[i].postType === 'comment'){
+        postHtmlString += '<p class="post-comment">' + Posts[i].comment + '</p>'; 
+      }
+      
+      postHtmlString += '<p class="full-comments">' + Posts[i].fullComments + '</p>'
+                     + '</div><div style="clear:both"></div>';
     }
-    
-    postHtmlString += '<p class="full-comments">' + Posts[i].fullComments + '</p>'
-                   + '</div><div style="clear:both"></div>';
     i++;  
   }
 

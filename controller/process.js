@@ -39,8 +39,7 @@ function updateUser(response, pageType){
    * Load first-page specific information into User, or give the user a 
    * status message if the user account doesn't exist.
    */
-  if(pageType === 'first'){
-    
+  if(pageType === 'first'){ 
     if(json['userExists'] === false){
       displayErrorMessage('User does not exist.');
       hideStatus();
@@ -141,7 +140,7 @@ function populateSubreddits(){
  * the user was just looking at.  An intermediary loading overlay is used while
  * the new view is readied.
  */
-function readyView(view, subView){
+function readyView(view, subView, type){
   if(User.postCount === undefined || User.postCount === 0){
     displayErrorMessage('This thing doesn\'t work unless you "analyze" a user first.');      
   }
@@ -164,7 +163,7 @@ function readyView(view, subView){
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'subreddits-page';
         var Posts = readyPostsFromSubreddit(subView);
-        displaySubredditPosts(Posts, subView);
+        displaySubredditPosts(Posts, subView, type);
         hideLoadingOverlay(User.currentViewId);
         break;
       case 'subreddit':
@@ -239,7 +238,7 @@ function loadPost(type, Post){
       Temp.comment = Post.userComment;
       break;
     case 'link':
-      if(Post.thumbnail.indexOf('redditmedia') !== -1){
+      if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('redditmedia') !== -1){
         Temp.thumbnail = Post.thumbnail;
       }
       else{

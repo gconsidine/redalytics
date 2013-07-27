@@ -31,7 +31,7 @@ $_SESSION['auth'] = KEY;
       <div id="side-menu-container">
         <ul class="side-menu">
           <li onclick="readyView(this.innerHTML);">Overview</li>
-          <li onclick="readyView(this.innerHTML, 'all');">Subreddits</li>
+          <li onclick="readyView(this.innerHTML, 'all', 'all');">Subreddits</li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
