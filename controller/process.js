@@ -3,7 +3,7 @@
  * while the scraper does its thing.
  */
 function prepare(){
-User = {};
+  User = {};
   Subreddits = {};
   User.pageCount = 0;
   User.postCount = 0;
@@ -283,15 +283,36 @@ function readyPostsForOverview(){
   return Posts;
 }
 
+/* 
+ * Uses the Subreddit object that populated the subreddit menu to create an
+ * array of sub vs. post count frequency to be passed to the Google pie chart.
+ */
+function getPieChartArray(){
+  var subPie = new Array();
+  var pieTitle = ['Subreddit', 'Posts'];
+  subPie.push(pieTitle);
+
+  for(sub in Subreddits){
+    var temp = new Array();
+    temp.push(sub);
+    temp.push(Subreddits[sub]);
+    subPie.push(temp);
+  }
+
+  return subPie;
+}
+
+function getColumnChartArray(){
+}
+
+function getAreaChartArray(){
+}
+
+/* Draws all charts in the Chart view */
 function drawCharts(){
-  var pieData = google.visualization.arrayToDataTable([
-    ['Task', 'Hours per Day'],
-    ['Work',     11],
-    ['Eat',      2],
-    ['Commute',  2],
-    ['Watch TV', 2],
-    ['Sleep',    7]
-  ]);
+  
+  /* Pie Chart */
+  var pieData = google.visualization.arrayToDataTable(getPieChartArray());
 
   var pieOptions = {
     title: 'Subreddit Post Frequency'
@@ -299,7 +320,8 @@ function drawCharts(){
 
   var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
   pieChart.draw(pieData, pieOptions);
-
+  
+  /* Column Chart */
   var columnData = google.visualization.arrayToDataTable([
     ['Year', 'Sales', 'Expenses'],
     ['2004',  1000,      400],
@@ -315,7 +337,8 @@ function drawCharts(){
 
   var columnChart = new google.visualization.ColumnChart(document.getElementById('column-chart'));
   columnChart.draw(columnData, columnOptions);
-
+  
+  /* Area Chart */
   var areaData = google.visualization.arrayToDataTable([
     ['Year', 'Sales', 'Expenses'],
     ['2004',  1000,      400],
