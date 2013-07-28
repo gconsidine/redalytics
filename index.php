@@ -20,22 +20,28 @@ $_SESSION['auth'] = KEY;
     <title>Redalytics</title>
   </head>
   <body>
+    <!-- target elements to alter URLs onclick -->
+    <div id="overview"></div>
+    <div id="charts"></div>
+    <div id="subreddits"></div>
+    <div id="post-type"></div>
+    <div id="specific-sub"></div>
     <div id="page-container">
-      
+
       <!-- Menu -->
       <div id="title-container">
-        <a href="index.php">Redalytics</a>
+        <a href="../redalytics/">Redalytics</a>
         <input type="search" placeholder="Search user history" />
       </div>
       
       <div id="side-menu-container">
         <ul class="side-menu">
-          <li onclick="readyView(this.innerHTML);">Overview</li>
-          <li onclick="readyView(this.innerHTML, 'all', 'all');">Subreddits</li>
+          <li><a onclick="readyView(this.innerHTML);" class="main" href="#overview">Overview</a></li>
+          <li><a onclick="readyView(this.innerHTML, 'all', 'all');" class="main" href="#subreddits">Subreddits</a></li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
-          <li onclick="readyView(this.innerHTML);">Charts</li>
+          <li><a onclick="readyView(this.innerHTML);" class="main" href="#charts">Charts</a></li>
         </ul>
       </div>
       <!-- End Menu -->
@@ -75,21 +81,26 @@ $_SESSION['auth'] = KEY;
       <!-- End subreddit page -->
 
       <!-- Chart page -->
-      <div id="chart-page"></div>
+      <div id="charts-page">
+        <div id="pie-chart"></div>
+        <div id="column-chart"></div>
+        <div id="area-chart"></div>
+      </div>
       <!-- End chart page -->
 
       <!-- Search results page -->
       <div id="search-page"></div>
       <!-- End search results page -->
-      
-      <div id="footer">
-        <p><a href="http://poba.co">POBAco</a></p>
-      </div>
     </div>
 
     <script src="controller/user.js"></script>
     <script src="controller/request.js"></script>
     <script src="controller/process.js"></script>
     <script src="view/display.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+    </script>
   </body>
 </html>

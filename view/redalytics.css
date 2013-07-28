@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face
 {
   font-family: comfortaa;
@@ -16,6 +17,8 @@
   src: url('../assets/fonts/comfortaa_light.ttf') format('truetype');
   font-style:italic;
 }
+
+/* Universal */
 body
 {
   background-image:url('../assets/images/shattered.png');
@@ -53,6 +56,7 @@ body
   margin: 14px 14px 0 0;
 }
 
+/* Navigation */
 #side-menu-container{
   margin: 0;
   padding: 0;
@@ -67,9 +71,8 @@ body
 }
 
 .side-menu li{
-  width: 180px;
-  height: 30px;
-  padding: 10px 0 0 10px;
+  width: 190px;
+  height: 40px;
   background-color: #666;
   border: 5px solid #666;
   color: #f9f9f9;
@@ -80,7 +83,73 @@ body
   border: 5px solid #666;
   cursor: pointer;
 }
+.side-menu li a{
+  display: block;
+  height: 100%;
+  width: 100%;
+  margin: 0 0 0 10px;
+  padding: 0;
+  line-height: 250%;
 
+}
+
+.main{
+  text-decoration: none;
+  color: #f9f9f9;
+  display: block;
+}
+.sub{
+}
+.sub a:link{
+  display:block;
+  color: #666;  
+
+  text-decoration: none !important;
+}
+.sub a:hover{
+  color: #f9f9f9;
+display:block;
+  text-decoration: none !important;
+}
+
+#subreddit-menu{
+  padding: 0;
+  margin: 0;
+}
+
+#sub-menu-table{
+  width: 200px;
+  height: 20px;
+  background-color: #f9f9f9;
+  color: #666;
+  font-size: 80%;
+}
+
+#sub-menu-table tr:hover{
+  background-color: #77ad77;
+  margin-left: 5px;
+  color: #f9f9f9;
+  cursor:pointer;
+}
+#sub-menu-table .sub{
+  padding-left: 15px;
+  text-decoration: none;
+  color: inherit;
+  display:block;
+}
+
+#sub-menu-table .count{
+  width: 40px;
+}
+
+#loading-overlay{
+  background-color: #f9f9f9;
+  width: 800px;
+  height: 900px;
+  float: right;
+}
+
+/* Home Page */
 #home-page{
   padding: 0;
   margin: 0;
@@ -106,13 +175,6 @@ body
   margin-top: 10px;
   text-align: center;
   font-size: 90%;
-}
-
-.divider{
-  margin:0;
-  padding:0;
-  border-bottom:1px solid #598282; 
-  clear: both;
 }
 
 #input{
@@ -164,19 +226,6 @@ body
   border:none;
 }
 
-#footer{
-  width:900px;
-  margin:0 auto;
-  padding-top: 5px;
-  clear: both;
-}
-
-#footer p{
-  text-align:center;
-  font-family:comfortaa;
-  font-size:70%;
-}
-
 #status h4{
   text-align: center;
   padding: 0;
@@ -199,40 +248,8 @@ body
 #center{
   text-align: center;
 }
-#subreddit-menu{
-  padding: 0;
-  margin: 0;
-}
-#sub-menu-table{
-  width: 200px;
-  height: 20px;
-  background-color: #f9f9f9;
-  color: #666;
-  font-size: 80%;
-}
 
-#sub-menu-table tr:hover{
-  background-color: #77ad77;
-  margin-left: 5px;
-  color: #f9f9f9;
-  cursor:pointer;
-}
-#sub-menu-table .sub{
-  width: 145px;
-  padding-left: 15px;
-}
-
-#sub-menu-table .count{
-  width: 40px;
-}
-
-#loading-overlay{
-  background-color: #f9f9f9;
-  width: 800px;
-  height: 900px;
-  float: right;
-}
-
+/* Loading Overlay */
 #loading-overlay-status{
   text-align: center;
 }
@@ -241,6 +258,7 @@ body
   margin-top: 20%;
 }
 
+/* Subreddit View */
 #subreddits-page{
   display: none;
   padding: 0;
@@ -308,4 +326,90 @@ body
   color: #598282;
   font-size: 90%;
   margin-left: 20px;
+}
+
+/* Overview View */
+#overview-page{
+  display: none;
+  padding: 0;
+  margin: 0;
+  width: 800px;
+  min-height: 950px;
+  background-color: #f9f9f9;
+  float: right;
+  font-family: arial;
+  text-decoration: none;
+}
+#overview-page a{
+  text-decoration: none;
+}
+#overview-page table{
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+.overview-title{
+  text-align: center;
+  font-family: comfortaa;
+  font-size: 150%;
+  color: #77ad77;
+}
+.overview-details{
+  padding: 5;
+  font-size: 80%;
+  color: #333;
+}
+
+.overview-heading{
+  margin: 0 20px 10px 20px;
+  padding: 0;
+  font-size: 120%;
+  font-family: comfortaa;
+  border-bottom: 2px solid #77ad77;
+}
+#trophies{
+  float: right;
+  margin-right: 20px;
+}
+.trophy-title{
+  font-family: comfortaa; 
+  margin: 0 20px 5px -5px;
+}
+.trophy{
+  font-size: 80%;
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+#overview-stats{
+  float: left;
+}
+.overview-stats-title{
+  margin: 0 0 0 20px;
+  font-family: comfortaa;
+}
+
+/* Charts View */
+#charts-page{
+  display: none;
+  padding: 0;
+  margin: 0;
+  width: 800px;
+  min-height: 950px;
+  background-color: #f9f9f9;
+  float: right;
+  font-family: arial;
+  text-decoration: none;
+}
+
+#pie-chart{
+  width: 800px;
+  height: 400px;
+}
+#column-chart{
+  width: 800px;
+  height: 400px;
+}
+
+#area-chart{
+  width: 800px;
+  height: 400px;
 }

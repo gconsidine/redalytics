@@ -3,8 +3,7 @@
  * while the scraper does its thing.
  */
 function prepare(){
-
-  User = {};
+User = {};
   Subreddits = {};
   User.pageCount = 0;
   User.postCount = 0;
@@ -145,8 +144,8 @@ function readyView(view, subView, type){
     displayErrorMessage('This thing doesn\'t work unless you "analyze" a user first.');      
   }
   else{
-
-    if(User.currentView === undefined){
+    
+    if(User.currentViewId === undefined){
       User.currentViewId = 'home-page'; 
     }
 
@@ -155,24 +154,22 @@ function readyView(view, subView, type){
       case 'Overview':
         showLoadingOverlay(User.currentViewId); 
         User.currentViewId = 'overview-page';
-        //call function to arrange data
-        //call function to display data
-        //call hideLoadingOverlay
+        var Posts = readyPostsForOverview(); 
+        displayOverview(Posts);
+        hideLoadingOverlay(User.currentViewId);
         break;
       case 'Subreddits':
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'subreddits-page';
         var Posts = readyPostsFromSubreddit(subView);
-        displaySubredditPosts(Posts, subView, type);
+        displayPosts(Posts, subView, type);
         hideLoadingOverlay(User.currentViewId);
-        break;
-      case 'subreddit':
-        showLoadingOverlay(User.currentViewId);
-        User.currentViewId = 'specific-sub-page';
         break;
       case 'Charts':
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'charts-page';
+        hideLoadingOverlay(User.currentViewId);
+        drawCharts();
         break;
       case 'Search':
         showLoadingOverlay(User.currentViewId);
@@ -240,9 +237,11 @@ function loadPost(type, Post){
     case 'link':
       if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('redditmedia') !== -1){
         Temp.thumbnail = Post.thumbnail;
+        console.log(Post.thumbnail);
       }
       else{
-        Temp.thumbnail = '';
+        Temp.thumbnail = '<a class="thumbnail" href=#>'
+                       + '<img src="assets/images/nsfw.png" width="70" height="70" /></a>';
       }
       break;
     default:
@@ -252,3 +251,84 @@ function loadPost(type, Post){
   return Temp;
 }
 
+/* Retrieves the worst post by karma, and best post by karma */
+function readyPostsForOverview(){
+  var Posts = {};
+
+  var min = parseInt(User[0][0].karma);
+  var max = parseInt(User[0][0].karma);
+
+  var i = 0,
+      j = 0,
+      k = 0;
+  while(User[i] instanceof Object){
+    j = 0;
+    while(User[i][j] instanceof Object){
+      
+      if(parseInt(User[i][j].karma) <= min){
+        min = parseInt(User[i][j].karma);     
+        Posts[0] = loadPost(User[i][j].postType, User[i][j]);
+      }
+
+      if(parseInt(User[i][j].karma) >= max){
+        max = parseInt(User[i][j].karma);
+        Posts[1] = loadPost(User[i][j].postType, User[i][j]);
+      }
+      
+      j++;
+    }
+    i++;
+  }
+
+  return Posts;
+}
+
+function drawCharts(){
+  var pieData = google.visualization.arrayToDataTable([
+    ['Task', 'Hours per Day'],
+    ['Work',     11],
+    ['Eat',      2],
+    ['Commute',  2],
+    ['Watch TV', 2],
+    ['Sleep',    7]
+  ]);
+
+  var pieOptions = {
+    title: 'Subreddit Post Frequency'
+  };
+
+  var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+  pieChart.draw(pieData, pieOptions);
+
+  var columnData = google.visualization.arrayToDataTable([
+    ['Year', 'Sales', 'Expenses'],
+    ['2004',  1000,      400],
+    ['2005',  1170,      460],
+    ['2006',  660,       1120],
+    ['2007',  1030,      540]
+  ]);
+
+  var columnOptions = {
+    title: 'Total Post Count by Type',
+    hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+  };
+
+  var columnChart = new google.visualization.ColumnChart(document.getElementById('column-chart'));
+  columnChart.draw(columnData, columnOptions);
+
+  var areaData = google.visualization.arrayToDataTable([
+    ['Year', 'Sales', 'Expenses'],
+    ['2004',  1000,      400],
+    ['2005',  1170,      460],
+    ['2006',  660,       1120],
+    ['2007',  1030,      540]
+  ]);
+
+  var areaOptions = {
+    title: 'Total Posts',
+    hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+  };
+
+  var areaChart = new google.visualization.AreaChart(document.getElementById('area-chart'));
+  areaChart.draw(areaData, areaOptions);
+}

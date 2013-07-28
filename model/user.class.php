@@ -139,7 +139,7 @@ class User
     }
     
     if($comment->find('.score', 1))
-      $post['karma'] = $comment->find('.score', 1)->innertext;
+      $post['karma'] = $this->trimPoints($comment->find('.score', 1)->innertext);
     if($comment->find('time', 0))
       $post['time'] = $comment->find('time', 0)->datetime;
     
@@ -157,7 +157,7 @@ class User
       $post['comment'] = null;
 
       if($midcol->find('.score', 1))
-        $post['karma'] = $midcol->find('.score', 1)->innertext;
+        $post['karma'] = $this->trimPoints($midcol->find('.score', 1)->innertext);
     }
     foreach($self->find('.entry') as $entry)
     {
@@ -199,7 +199,7 @@ class User
       $post['comment'] = null;
 
       if($midcol->find('.score', 1))
-        $post['karma'] = $midcol->find('.score', 1)->innertext;
+        $post['karma'] = $this->trimPoints($midcol->find('.score', 1)->innertext);
     }
     foreach($link->find('p.title') as $title)
     {
@@ -304,6 +304,17 @@ class User
     }
     else
       return false;
+  }
+  
+  /* 
+   * Karma points are displayed inconsistently sometimes as '1 point' others 
+   * as '1', this function normalizes all points to be a single integer.
+   */
+  private function trimPoints($points)
+  {
+    $temp = explode(' ', $points);
+    
+    return $temp[0];
   }
 }
 
