@@ -53,7 +53,8 @@ function displaySubredditMenu(){
   var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
     menu += '<tr onclick="readyView(\'Subreddits\', \'' + sub + '\', \'all\');">'
-          + '<td><a class="sub" href=#specific-sub>' + sub + '</a></td><td class="count"><a class="sub">' + Subreddits[sub] + '</a></td><tr>';
+          + '<td><a class="sub" href=#specific-sub>' + sub + '</a></td><td class="count"><a class="sub">' 
+          + Subreddits[sub] + '</a></td><tr>';
   }
   menu += '</table>';
 
@@ -214,3 +215,41 @@ function hideLoadingOverlay(currentViewId){
   document.getElementById(currentViewId).style.display = 'block';
 }
 
+/* Draws all charts in the Chart view */
+function displayCharts(){
+
+  /* Pie Chart */
+  var pieData = google.visualization.arrayToDataTable(getPieChartArray());
+
+  var pieOptions = {
+    title: 'Subreddit Post Frequency',
+    backgroundColor: '#f9f9f9'
+  };
+
+  var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+  pieChart.draw(pieData, pieOptions);
+  
+  /* Column Chart */
+  var columnData = google.visualization.arrayToDataTable(getChartArray('column'));
+
+  var columnOptions = {
+    title: 'Post Count by Type (last 12 months)',
+    hAxis: {title: '', titleTextStyle: {color: 'red'}},
+    backgroundColor: '#f9f9f9'
+  };
+
+  var columnChart = new google.visualization.ColumnChart(document.getElementById('column-chart'));
+  columnChart.draw(columnData, columnOptions);
+  
+  /* Area Chart */
+  var areaData = google.visualization.arrayToDataTable(getChartArray('area'));
+
+  var areaOptions = {
+    title: 'All Posts (last 12 months)',
+    hAxis: {title: '',  titleTextStyle: {color: 'red'}},
+    backgroundColor: '#f9f9f9'
+  };
+
+  var areaChart = new google.visualization.AreaChart(document.getElementById('area-chart'));
+  areaChart.draw(areaData, areaOptions);
+}

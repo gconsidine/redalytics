@@ -56,6 +56,12 @@ body
   margin: 14px 14px 0 0;
 }
 
+#title-container p{
+  float: right;
+  margin: 14px 14px 0 0;
+  color: #f9f9f9;
+}
+
 /* Navigation */
 #side-menu-container{
   margin: 0;
@@ -115,6 +121,9 @@ display:block;
 #subreddit-menu{
   padding: 0;
   margin: 0;
+  max-height:800px;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 #sub-menu-table{
@@ -132,7 +141,7 @@ display:block;
   cursor:pointer;
 }
 #sub-menu-table .sub{
-  padding-left: 15px;
+  padding-left: 5px;
   text-decoration: none;
   color: inherit;
   display:block;
@@ -165,11 +174,12 @@ display:block;
   margin-top: 10%;
   margin-bottom: 0;
 }
+
 #details{
   color: #333;
-  margin-top: 0;
   text-align: center;
 }
+
 #progress-details{
   color: #333;
   margin-top: 10px;
@@ -226,6 +236,9 @@ display:block;
   border:none;
 }
 
+#status{
+  height: 90px;
+}
 #status h4{
   text-align: center;
   padding: 0;
@@ -249,6 +262,25 @@ display:block;
   text-align: center;
 }
 
+#explanation{
+  margin: 20px 20px 0px 20px;
+}
+
+#explanation p{
+  text-align: center;
+  padding-top: 15px;
+  color: #333;
+  border-top: 2px solid #77ad77;
+}
+
+#explanation ul{
+  font-size: 80%;
+  font-family: arial;
+}
+#explanation ul li{
+  padding: 10px;
+}
+ 
 /* Loading Overlay */
 #loading-overlay-status{
   text-align: center;
@@ -412,4 +444,19 @@ display:block;
 #area-chart{
   width: 800px;
   height: 400px;
+}
+
+/* Footer */
+#footer{
+  width: 1000px;
+  margin: 0 auto;
+}
+#footer p{
+  text-align: center;
+  margin-left: 200px;
+  font-size: 80%;
+}
+#footer p a{
+  color: #77ad77;
+  text-decoration: none;
 }

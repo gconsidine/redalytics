@@ -169,7 +169,7 @@ function readyView(view, subView, type){
         showLoadingOverlay(User.currentViewId);
         User.currentViewId = 'charts-page';
         hideLoadingOverlay(User.currentViewId);
-        drawCharts();
+        displayCharts();
         break;
       case 'Search':
         showLoadingOverlay(User.currentViewId);
@@ -289,69 +289,217 @@ function readyPostsForOverview(){
  */
 function getPieChartArray(){
   var subPie = new Array();
-  var pieTitle = ['Subreddit', 'Posts'];
-  subPie.push(pieTitle);
-
+  
   for(sub in Subreddits){
     var temp = new Array();
     temp.push(sub);
     temp.push(Subreddits[sub]);
     subPie.push(temp);
   }
-
+  
+  subPie.sort(compareInts);
+  subPie = groupTopSubs(subPie);
+  subPie.unshift(['Subreddit', 'Posts']);
   return subPie;
 }
 
-function getColumnChartArray(){
+/*
+ * The pie chart can get messy if a user has participated in many subs.  This
+ * function keeps the top seven [sub, postCounts] and then groups the rest of
+ * into an [other, postCount] array.  If a user has posted in 8 subs or less,
+ * the function just returns the passed array.
+ */
+function groupTopSubs(array){
+  if(array.length <= 8){
+    return array;
+  }
+
+  var temp = ['other', 0]; 
+  
+  for(var i = 7; i < array.length; i++){
+    temp[1] += array[i][1];
+  }
+
+  array = array.slice(0, 7)
+  array.push(temp);
+
+  return array;
 }
 
-function getAreaChartArray(){
+/* Compares the post count of two subreddits.  Sorts in descending order.*/
+function compareInts(x, y){
+
+  x = parseInt(x[1]);
+  y = parseInt(y[1]);
+
+  if(x < y){
+    return 1;
+  }
+  else if(x > y){
+    return -1;
+  }
+  else{
+    return 0;
+  }
 }
 
-/* Draws all charts in the Chart view */
-function drawCharts(){
+/*
+ * Prepares an array of posts data used to generate the column/area charts.  A
+ * single dimensional array is first created containing time and post type.
+ * Time is formatted into a single integer for easy comparison.  For example,
+ * 2012-12-21 becomes 20121221.
+ */
+function getChartArray(type){
+
+  var Posts = new Array();
+
+  var i = 0,
+      j = 0,
+      k = 0;
+  while(User[i] instanceof Object){
+    j = 0;
+    while(User[i][j] instanceof Object){
+
+      temp = User[i][j].time.substring(0,10);
+      temp = temp.replace(/-/g, '');
+      Posts[k] = [User[i][j].postType, temp];
+      k++;
+      j++;
+    }
+    i++;
+  }
   
-  /* Pie Chart */
-  var pieData = google.visualization.arrayToDataTable(getPieChartArray());
-
-  var pieOptions = {
-    title: 'Subreddit Post Frequency'
-  };
-
-  var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
-  pieChart.draw(pieData, pieOptions);
-  
-  /* Column Chart */
-  var columnData = google.visualization.arrayToDataTable([
-    ['Year', 'Sales', 'Expenses'],
-    ['2004',  1000,      400],
-    ['2005',  1170,      460],
-    ['2006',  660,       1120],
-    ['2007',  1030,      540]
-  ]);
-
-  var columnOptions = {
-    title: 'Total Post Count by Type',
-    hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
-  };
-
-  var columnChart = new google.visualization.ColumnChart(document.getElementById('column-chart'));
-  columnChart.draw(columnData, columnOptions);
-  
-  /* Area Chart */
-  var areaData = google.visualization.arrayToDataTable([
-    ['Year', 'Sales', 'Expenses'],
-    ['2004',  1000,      400],
-    ['2005',  1170,      460],
-    ['2006',  660,       1120],
-    ['2007',  1030,      540]
-  ]);
-
-  var areaOptions = {
-    title: 'Total Posts',
-    hAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
-  };
-
-  var areaChart = new google.visualization.AreaChart(document.getElementById('area-chart'));
-  areaChart.draw(areaData, areaOptions);
+  if(type === 'column'){
+    var months = groupByMonthForColumn(Posts);
+    return formatForColumnChart(months);
+  }
+  else if(type === 'area'){
+    var months = groupByMonthForArea(Posts);
+    return formatForAreaChart(months);
+  }
 }
+
+/* 
+ * This function groups the Post date/type data into an array of arrays 
+ * containing the count of post types for a given month over the last
+ * twelve months.
+ */
+function groupByMonthForColumn(Posts){
+  var today = new Date(); 
+  var months = new Array();
+  
+  for(var i = 0; i < Posts.length; i++){
+    var postYear = parseInt(Posts[i][1].substring(0, 4));
+    var postMonth = parseInt(Posts[i][1].substring(4, 6)); 
+    var currentYear = today.getFullYear();
+    var currentMonth = today.getMonth() + 1;
+    var monthCount = 1;
+    
+    while(monthCount <= 12){
+      if(months[monthCount] === undefined){
+        months[monthCount] = new Array();
+        months[monthCount][0] = currentMonth + '/' + currentYear;  
+        months[monthCount][1] = 0;
+        months[monthCount][2] = 0;
+        months[monthCount][3] = 0;
+      }
+
+      if(postYear === currentYear){
+        if(postMonth === currentMonth){
+          if(Posts[i][0] === 'comment'){
+            months[monthCount][1]++;
+          }
+          else if(Posts[i][0] === 'link'){
+            months[monthCount][2]++;
+          }
+          else if(Posts[i][0] === 'submission'){
+            months[monthCount][3]++;
+          }
+        }
+      }
+
+      monthCount++;
+      if(currentMonth === 1){
+        currentMonth = 12; 
+        currentYear--;
+      }
+      else{
+        currentMonth--;
+      }
+    }
+  }
+
+  return months;
+}
+
+/*
+ * The array returned from the groupByMonth() function needs to be modified
+ * a bit to be in the format required by Google for a column chart.
+ */
+function formatForColumnChart(months){
+
+  var columns = new Array();
+  columns.push(['Months', 'Comments', 'Links', 'Self Posts']);
+
+  for(var i = months.length - 1; i > 0; i--){
+    columns.push(months[i]);
+  }
+
+  return columns;
+}
+
+/* 
+ * Similar to groupByMonthForColumn() but a more simplified version since
+ * this function only grabs posts not specific types of posts.
+ */
+function groupByMonthForArea(Posts){
+  var today = new Date(); 
+  var months = new Array();
+  
+  for(var i = 0; i < Posts.length; i++){
+    var postYear = parseInt(Posts[i][1].substring(0, 4));
+    var postMonth = parseInt(Posts[i][1].substring(4, 6)); 
+    var currentYear = today.getFullYear();
+    var currentMonth = today.getMonth() + 1;
+    var monthCount = 1;
+    
+    while(monthCount <= 12){
+      if(months[monthCount] === undefined){
+        months[monthCount] = new Array();
+        months[monthCount][0] = currentMonth + '/' + currentYear;  
+        months[monthCount][1] = 0;
+      }
+
+      if(postYear === currentYear){
+        if(postMonth === currentMonth){
+          months[monthCount][1]++; 
+        }
+      }
+
+      monthCount++;
+      if(currentMonth === 1){
+        currentMonth = 12; 
+        currentYear--;
+      }
+      else{
+        currentMonth--;
+      }
+    }
+  }
+
+  return months;
+}
+
+/* Formats the array into Google charts approved format */
+function formatForAreaChart(months){
+
+  var area = new Array();
+  area.push(['Months', 'Posts']);
+
+  for(var i = months.length - 1; i > 0; i--){
+    area.push(months[i]);
+  }
+
+  return area;
+}
+
