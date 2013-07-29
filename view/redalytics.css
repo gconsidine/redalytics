@@ -141,7 +141,7 @@ display:block;
   cursor:pointer;
 }
 #sub-menu-table .sub{
-  padding-left: 5px;
+  padding: 3px 0 1px 5px;
   text-decoration: none;
   color: inherit;
   display:block;
@@ -315,7 +315,7 @@ display:block;
 #subreddits-page .subreddit-sub-menu{
   text-align: center;
   color: #666;
-  margin: -3px 15px 20px 15px;
+  margin: 0px 15px 20px 15px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 20px;
 }
