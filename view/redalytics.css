@@ -191,6 +191,9 @@ display:block;
   margin-top: 25px;
   text-align: center;
 }
+#input input{
+  width: 200px;
+}
 
 #user-name{
   margin-top: 4px;
