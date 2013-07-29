@@ -30,7 +30,7 @@ $_SESSION['auth'] = KEY;
 
       <!-- Menu -->
       <div id="title-container">
-        <a href="../redalytics/">Redalytics</a>
+        <a href="http://redalytics.poba.co">Redalytics</a>
         <p>beta</p>
         <!--<input type="search" placeholder="Search user history" />-->
       </div>
@@ -57,7 +57,7 @@ $_SESSION['auth'] = KEY;
       <!-- Home page -->
       <div id="home-page">    
         <h2>Welcome to Redalytics</h2>
-        <p id="details">Enter a reddit user name below to get started.</p>
+        <p id="details">Enter a reddit user name below to get started</p>
         <div id="input">
           <input type="text" id="user-name" maxlength="20" required autofocus onkeypress="keyCheck(event);"/><br />
           <button id="stop-button" onclick="stop();">Stop</button>
