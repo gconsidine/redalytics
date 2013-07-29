@@ -229,7 +229,7 @@ function displayCharts(){
   var columnData = google.visualization.arrayToDataTable(getChartArray('column'));
 
   var columnOptions = {
-    title: 'Post Count by Type (last 12 months)',
+    title: 'Post Activity by Type (last 12 months)',
     hAxis: {title: '', titleTextStyle: {color: 'red'}},
     backgroundColor: '#f9f9f9'
   };
@@ -241,7 +241,7 @@ function displayCharts(){
   var areaData = google.visualization.arrayToDataTable(getChartArray('area'));
 
   var areaOptions = {
-    title: 'All Posts (last 12 months)',
+    title: 'Total Post Activity (last 12 months)',
     hAxis: {title: '',  titleTextStyle: {color: 'red'}},
     backgroundColor: '#f9f9f9'
   };
