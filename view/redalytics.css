@@ -280,6 +280,11 @@ display:block;
 #explanation ul li{
   padding: 10px;
 }
+
+#explanation a{
+  color: #77ad77;
+  text-decoration: none;
+}
  
 /* Loading Overlay */
 #loading-overlay-status{

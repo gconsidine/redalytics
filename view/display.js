@@ -5,10 +5,6 @@ function toggleFocus(newId, oldId){
   document.getElementById(oldId).style.backgroundColor = '#666';
 }
 
-function displayAllData(){
-  console.log(User);
-}
-
 /* Displays the current post count or a loading .gif if no post count has been returned yet */
 function displayStatus(){
 

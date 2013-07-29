@@ -22,11 +22,15 @@ class User
   {
     $this->name = $name;
     $url = 'http://www.reddit.com/user/' . $this->name;
-    $this->html = new simple_html_dom(); 
     
     if($this->urlExists($url))
     {
-      $this->html->load_file('http://www.reddit.com/user/' . $this->name);
+      /*
+       * Note: Creating a simple_html_dom object and using load_file fails on
+       * the web server for some bizarre reason.  file_get_html() works both
+       * locally and hosted.
+       */
+      $this->html = file_get_html('http://www.reddit.com/user/' . $this->name);
     }
     else
     {
@@ -48,8 +52,7 @@ class User
   public function scrapePage($link)
   {
     $link = urldecode($link);
-    $this->html = new simple_html_dom();
-    $this->html->load_file($link);
+    $this->html = file_get_html($link);
 
     $this->getPageData();
     $this->getLinkToNextPage();

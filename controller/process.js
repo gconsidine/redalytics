@@ -68,7 +68,6 @@ function updateUser(response, pageType){
   else{
     User.stop = true;
     displayProgressDetails('posts analyzed.');
-    displayAllData();
     populateSubreddits();
     displaySubredditMenu();
   }
@@ -237,7 +236,6 @@ function loadPost(type, Post){
     case 'link':
       if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('redditmedia') !== -1){
         Temp.thumbnail = Post.thumbnail;
-        console.log(Post.thumbnail);
       }
       else{
         Temp.thumbnail = '<a class="thumbnail" href=#>'
