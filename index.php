@@ -26,6 +26,7 @@ $_SESSION['auth'] = KEY;
     <div id="subreddits"></div>
     <div id="post-type"></div>
     <div id="specific-sub"></div>
+
     <div id="page-container">
 
       <!-- Menu -->
@@ -37,12 +38,12 @@ $_SESSION['auth'] = KEY;
       
       <div id="side-menu-container">
         <ul class="side-menu">
-          <li><a onclick="readyView(this.innerHTML);" class="main" href="#overview">Overview</a></li>
-          <li><a onclick="readyView(this.innerHTML, 'all', 'all');" class="main" href="#subreddits">Subreddits</a></li>
+          <li id="menu-overview"><a onclick="readyView(this.innerHTML);" class="main" href="#overview">Overview</a></li>
+          <li id="menu-sub"><a onclick="readyView(this.innerHTML, 'all', 'all');" class="main" href="#subreddits">Subreddits</a></li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
-          <li><a onclick="readyView(this.innerHTML);" class="main" href="#charts">Charts</a></li>
+          <li id="menu-chart"><a onclick="readyView(this.innerHTML);" class="main" href="#charts">Charts</a></li>
         </ul>
       </div>
       <!-- End Menu -->
@@ -82,7 +83,7 @@ $_SESSION['auth'] = KEY;
             <li>
               <em>Do you you do something creepy with my data?</em> Nope.  I really don't care 
               about your data.  There is no database, no Google Analytics tracking, no record of
-              IP adresses, etc.  I just retrieve your post history and hand it off to your browser
+              IP addresses, etc.  I just retrieve your post history and hand it off to your browser
               like it's a hot potato.  When you close this tab or reload the page, all information
               is gone and you'll have to 're-analyze' if you want to see the data again.
             </li>

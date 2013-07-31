@@ -1,10 +1,5 @@
 var Display = {};
 
-function toggleFocus(newId, oldId){
-  document.getElementById(newId).style.backgroundColor = '#77ad77';
-  document.getElementById(oldId).style.backgroundColor = '#666';
-}
-
 /* Displays the current post count or a loading .gif if no post count has been returned yet */
 function displayStatus(){
 
@@ -48,7 +43,7 @@ function displaySubredditMenu(){
   
   var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
-    menu += '<tr onclick="readyView(\'Subreddits\', \'' + sub + '\', \'all\');">'
+    menu += '<tr id="' + sub + '" onclick="readyView(\'Subreddits\', \'' + sub + '\', \'all\');">'
           + '<td><a class="sub" href=#specific-sub>' + sub + '</a></td><td class="count"><a class="sub">' 
           + Subreddits[sub] + '</a></td><tr>';
   }
@@ -72,7 +67,14 @@ function hideErrorMessage(){
  * subreddit.
  */
 function displayPosts(Posts, subView, type){
-  
+
+  if(subView === 'all'){
+    toggleFocus(document.getElementById('menu-sub'));
+  }
+  else{
+    toggleFocus(document.getElementById(subView), true);
+  }
+
   var title = formatTitle(subView);              
 
   /* 
@@ -152,7 +154,8 @@ function formatTitle(subView){
 
 /* Formats and displays all the data in the overview view */
 function displayOverview(Posts){
-  console.log(Posts);
+  toggleFocus(document.getElementById('menu-overview'));
+
   var trophies = User[0].trophies; 
 
   var header = '<p class="overview-title">' + User.name + '</p>'
@@ -211,8 +214,53 @@ function hideLoadingOverlay(currentViewId){
   document.getElementById(currentViewId).style.display = 'block';
 }
 
+function toggleFocus(currentButton, innerButton){
+
+  Display.previousButton = Display.currentButton;
+  Display.currentButton = currentButton; 
+  
+  if(innerButton !== undefined && innerButton === true){
+
+    Display.subMenuLast = true;
+
+    if(Display.previousButton === undefined){
+      Display.currentButton.style.backgroundColor = '#77ad77';
+      Display.currentButton.style.Color = '#f9f9f9';
+    }
+    else if(Display.previousButton === Display.currentButton){
+      return false;
+    }
+    else{
+      Display.currentButton.style.backgroundColor = '#77ad77';
+      Display.currentButton.style.color = '#f9f9f9';
+      Display.previousButton.style.backgroundColor = '';
+      Display.previousButton.style.color = '';
+    }
+  }
+  else if(Display.subMenuLast !== undefined && Display.subMenuLast === true){
+    Display.subMenuLast = false;
+    Display.currentButton.style.backgroundColor = '#77ad77';
+    Display.previousButton.style.backgroundColor = '';
+    Display.previousButton.style.color = '';
+  }
+  else{
+
+    if(Display.previousButton === undefined){
+      Display.currentButton.style.backgroundColor = '#77ad77';
+    }
+    else if(Display.previousButton === Display.currentButton){
+      return false;
+    }
+    else{
+      Display.currentButton.style.backgroundColor = '#77ad77';
+      Display.previousButton.style.backgroundColor = '';
+    }
+  }
+}
+
 /* Draws all charts in the Chart view */
 function displayCharts(){
+  toggleFocus(document.getElementById('menu-chart'));
 
   /* Pie Chart */
   var pieData = google.visualization.arrayToDataTable(getPieChartArray());
