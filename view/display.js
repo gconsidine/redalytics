@@ -58,8 +58,6 @@ function hideErrorMessage(){
   document.getElementById('error-message').style.visibility = 'hidden';
 }
 
-
-
 /* 
  * Displays all posts in a given subreddit.  All is shown by default.
  * Furthermore, this function allows the user to drill down further to see
@@ -122,7 +120,7 @@ function formatSinglePost(Post){
   if(Post.postType === 'link'){
     postHtmlString += '<div class="image-container">' + Post.thumbnail + '</div>'; 
   }
-  anchorFormat(Post.title);
+
   postHtmlString += '<div class="post">' + anchorFormat(Post.title) + ' by ' 
                  + '<a class="user" onclick="openInNewTab(\'http://reddit.com/u/' + Post.author + '\');">'
                  + Post.author + '</a> in <a class="sub" onclick="openInNewTab(\'http://reddit.com/r/' + Post.sub + '\');">'
@@ -140,27 +138,8 @@ function formatSinglePost(Post){
   return postHtmlString;
 }
 
-/* 
- * Takes an existing anchor tag as scraped from reddit and inserts the onclick
- * function openInANewTab() to make sure the link opens in a new tab rather
- * than the same window
- */
-function anchorFormat(anchor){
 
-  var reHref = /href="/;
-  var reEnd = /"\s/;
 
-  if(anchor.substr(9,3) === '/r/'){
-    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'http://reddit.com');
-  }
-  else{
-    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'');
-  }
-   
-  anchor = anchor.replace(reEnd, '\');"');
-  
-  return anchor;
-}
 /* Formats the title header and menu for a given subreddit view */
 function formatTitle(subView){
   var title = '<p id="cat" class="subreddit-title">' + subView + ' posts</p>'

@@ -521,3 +521,36 @@ function openInNewTab(url){
   var win = window.open(url, '_blank');
   win.focus();
 }
+
+/* 
+ * Takes an existing anchor tag as scraped from reddit and inserts the onclick
+ * function openInANewTab() to make sure the link opens in a new tab rather
+ * than the same window
+ */
+function anchorFormat(anchor){
+  var reHref = /href="/;
+
+  if(anchor.substr(3, 5) === 'class'){
+    var reEnd = /"\s>/;
+  }
+  else{
+    var reEnd = /"\s/;
+  }
+
+  if(anchor.substr(9,3) === '/r/' || anchor.substr(23,3) === '/r/'){
+    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'http://reddit.com');
+  }
+  else{
+    console.log(anchor);
+    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'');
+  }
+  
+  if(anchor.substr(3, 5) === 'class'){
+    anchor = anchor.replace(reEnd, '\');">'); 
+  }
+  else{
+    anchor = anchor.replace(reEnd, '\');"');
+  } 
+
+  return anchor;
+}
