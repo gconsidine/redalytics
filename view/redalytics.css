@@ -105,6 +105,8 @@ body
   display: block;
 }
 .sub{
+  cursor: pointer;
+  color: blue;
 }
 .sub a:link{
   display:block;
@@ -337,12 +339,12 @@ display:block;
 
 #subreddits-page a{
   text-decoration: none;
-  target-new: tab;
 }
 .user{
   color: #598282;
   font-size: 80%;
   font-weight: bold;
+  cursor:pointer;
 } 
 
 .post{
@@ -366,8 +368,13 @@ display:block;
   color: #598282;
   font-size: 90%;
   margin-left: 20px;
+  cursor: pointer;
 }
 
+.title{
+  cursor: pointer;
+  color: blue;
+}
 /* Overview View */
 #overview-page{
   display: none;

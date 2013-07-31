@@ -70,6 +70,8 @@ function updateUser(response, pageType){
     displayProgressDetails('posts analyzed.');
     populateSubreddits();
     displaySubredditMenu();
+    console.log(User);
+    window.onbeforeunload = leaveAfterLoadWarning;
   }
 }
 
@@ -501,3 +503,21 @@ function formatForAreaChart(months){
   return area;
 }
 
+/* 
+ * Gives a warning message to user's who are leaving the site after spending
+ * the time to analyze a User.  This is sort of an annoying feature, but I
+ * feel like it'd be more annoying to wait to load a user with a long post
+ * history and accidentally close the tab/window.
+ */
+function leaveAfterLoadWarning(){
+  return 'All information gathered for ' + User.name + ' will disappear...';
+}
+
+/*
+ * Opens all reddit links in a new tab (assuming the user is using default 
+ * browser settings).
+ */
+function openInNewTab(url){
+  var win = window.open(url, '_blank');
+  win.focus();
+}

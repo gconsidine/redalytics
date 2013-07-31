@@ -20,12 +20,7 @@ $_SESSION['auth'] = KEY;
     <title>Redalytics</title>
   </head>
   <body>
-    <!-- target elements to alter URLs onclick -->
-    <div id="overview"></div>
-    <div id="charts"></div>
-    <div id="subreddits"></div>
     <div id="post-type"></div>
-    <div id="specific-sub"></div>
 
     <div id="page-container">
 
@@ -38,12 +33,12 @@ $_SESSION['auth'] = KEY;
       
       <div id="side-menu-container">
         <ul class="side-menu">
-          <li id="menu-overview"><a onclick="readyView(this.innerHTML);" class="main" href="#overview">Overview</a></li>
-          <li id="menu-sub"><a onclick="readyView(this.innerHTML, 'all', 'all');" class="main" href="#subreddits">Subreddits</a></li>
+          <li id="menu-overview"><a onclick="readyView(this.innerHTML);" class="main">Overview</a></li>
+          <li id="menu-sub"><a onclick="readyView(this.innerHTML, 'all', 'all');" class="main">Subreddits</a></li>
         </ul>
         <ul id="subreddit-menu"></ul>
         <ul class="side-menu">
-          <li id="menu-chart"><a onclick="readyView(this.innerHTML);" class="main" href="#charts">Charts</a></li>
+          <li id="menu-chart"><a onclick="readyView(this.innerHTML);" class="main">Charts</a></li>
         </ul>
       </div>
       <!-- End Menu -->
@@ -93,9 +88,12 @@ $_SESSION['auth'] = KEY;
               anyway.
             </li>
             <li>
-              Navigation is wonky at the moment.  This is my first attempt at a single page website.  
-              I'd suggest opening any links you come across in a new tab and avoid using browser navigation.
-              Sorry :/ -- I'll fix this when I get a chance.
+              Navigation is sort of wonky given that this is my first attempt at a single-page
+              website.  I've chosen to have all reddit links open in a new tab by default, and
+              give the user a warning if they navigate away from the site after loading a user.
+              This is sort of annoying, I know -- but I figured that it'd be even more annoying
+              to wait to have a user's post history scraped and then lose it by accidentally
+              closing the tab.
             </li>
             <li>
               Have a suggestion?  A criticism?  Find a bug?  <a href="http://poba.co/contact.php">Contact me</a>

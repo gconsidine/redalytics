@@ -44,7 +44,7 @@ function displaySubredditMenu(){
   var menu = '<table id="sub-menu-table" cellspacing="0">';
   for(var sub in Subreddits){
     menu += '<tr id="' + sub + '" onclick="readyView(\'Subreddits\', \'' + sub + '\', \'all\');">'
-          + '<td><a class="sub" href=#specific-sub>' + sub + '</a></td><td class="count"><a class="sub">' 
+          + '<td><a class="sub">' + sub + '</a></td><td class="count"><a class="sub">' 
           + Subreddits[sub] + '</a></td><tr>';
   }
   menu += '</table>';
@@ -92,18 +92,18 @@ function displayPosts(Posts, subView, type){
         postHtmlString += '<div class="image-container">' + Posts[i].thumbnail + '</div>'; 
       }
 
-      postHtmlString += '<div class="post">' + Posts[i].title + ' by ' 
-                     + '<a class="user" href="reddit.com/u/' + Posts[i].author + '">'
-                     + Posts[i].author + '</a> in <a class="sub" href="reddit.com/r/' + Posts[i].sub + '">'
-                     + Posts[i].sub + '</a><p class="post-info"><a class="user" href="reddit.com/u/' 
-                     + User.name + '">' + User.name + '</a> ' + Posts[i].karma + ' points '
+      postHtmlString += '<div class="post">' + anchorFormat(Posts[i].title) + ' by ' 
+                     + '<a class="user" onclick="openInNewTab(\'http://reddit.com/u/' + Posts[i].author + '\');">'
+                     + Posts[i].author + '</a> in <a class="sub" onclick="openInNewTab(\'http://reddit.com/r/' + Posts[i].sub + '\');">'
+                     + Posts[i].sub + '</a><p class="post-info"><a class="user" onclick="openInNewTab(\'http://reddit.com/u/' 
+                     + User.name + '\');">' + User.name + '</a> ' + Posts[i].karma + ' points '
                      + Posts[i].time.substr(0, 10) + '</p>';
 
       if(Posts[i].postType === 'comment'){
         postHtmlString += '<p class="post-comment">' + Posts[i].comment + '</p>'; 
       }
       
-      postHtmlString += '<p class="full-comments">' + Posts[i].fullComments + '</p>'
+      postHtmlString += '<p class="full-comments">' + anchorFormat(Posts[i].fullComments) + '</p>'
                      + '</div><div style="clear:both"></div>';
     }
 
@@ -122,32 +122,53 @@ function formatSinglePost(Post){
   if(Post.postType === 'link'){
     postHtmlString += '<div class="image-container">' + Post.thumbnail + '</div>'; 
   }
-
-  postHtmlString += '<div class="post">' + Post.title + ' by ' 
-                 + '<a class="user" href="reddit.com/u/' + Post.author + '">'
-                 + Post.author + '</a> in <a class="sub" href="reddit.com/r/' + Post.sub + '">'
-                 + Post.sub + '</a><p class="post-info"><a class="user" href="reddit.com/u/' 
-                 + User.name + '">' + User.name + '</a> ' + Post.karma + ' points '
+  anchorFormat(Post.title);
+  postHtmlString += '<div class="post">' + anchorFormat(Post.title) + ' by ' 
+                 + '<a class="user" onclick="openInNewTab(\'http://reddit.com/u/' + Post.author + '\');">'
+                 + Post.author + '</a> in <a class="sub" onclick="openInNewTab(\'http://reddit.com/r/' + Post.sub + '\');">'
+                 + Post.sub + '</a><p class="post-info"><a class="user" onclick="openInNewTab(\'http://reddit.com/u/' 
+                 + User.name + '\');">' + User.name + '</a> ' + Post.karma + ' points '
                  + Post.time.substr(0, 10) + '</p>';
 
   if(Post.postType === 'comment'){
     postHtmlString += '<p class="post-comment">' + Post.comment + '</p>'; 
   }
   
-  postHtmlString += '<p class="full-comments">' + Post.fullComments + '</p>'
+  postHtmlString += '<p class="full-comments">' + anchorFormat(Post.fullComments) + '</p>'
                   + '</div><div style="clear:both"></div>';
 
   return postHtmlString;
 }
 
+/* 
+ * Takes an existing anchor tag as scraped from reddit and inserts the onclick
+ * function openInANewTab() to make sure the link opens in a new tab rather
+ * than the same window
+ */
+function anchorFormat(anchor){
+
+  var reHref = /href="/;
+  var reEnd = /"\s/;
+
+  if(anchor.substr(9,3) === '/r/'){
+    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'http://reddit.com');
+  }
+  else{
+    anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'');
+  }
+   
+  anchor = anchor.replace(reEnd, '\');"');
+  
+  return anchor;
+}
 /* Formats the title header and menu for a given subreddit view */
 function formatTitle(subView){
   var title = '<p id="cat" class="subreddit-title">' + subView + ' posts</p>'
             + '<p class="subreddit-sub-menu">'
-            + '<a href=#post-type onclick="readyView(\'Subreddits\', \'' + subView + '\', \'all\');"\>All</a> | '
-            + '<a href=#post-type onclick="readyView(\'Subreddits\', \'' + subView + '\', \'comment\');"\>Comments</a> | '
-            + '<a herf=#post-type onclick="readyView(\'Subreddits\', \'' + subView + '\', \'submission\');"\>Self Posts</a> | '
-            + '<a href=#post-type onclick="readyView(\'Subreddits\', \'' + subView + '\', \'link\');"\>Links</a>';
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'all\');"\>All</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'comment\');"\>Comments</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'submission\');"\>Self Posts</a> | '
+            + '<a onclick="readyView(\'Subreddits\', \'' + subView + '\', \'link\');"\>Links</a>';
 
   return title;
 }
