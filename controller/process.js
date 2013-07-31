@@ -528,27 +528,28 @@ function openInNewTab(url){
  */
 function anchorFormat(anchor){
   var reHref = /href="/;
-
+  
+  var linkOrSelf = false;
   if(anchor.substr(3, 5) === 'class'){
-    var reEnd = /"\s>/;
-  }
-  else{
-    var reEnd = /"\s/;
+    anchor = anchor.replace('class="title" ', '');
+    linkOrSelf = true;
   }
 
-  if(anchor.substr(9,3) === '/r/' || anchor.substr(23,3) === '/r/'){
+  var reEnd = /"\s/;
+
+  if(anchor.substr(9,3) === '/r/'){
     anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'http://reddit.com');
   }
   else{
     anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'');
   }
   
-  if(anchor.substr(3, 5) === 'class'){
-    anchor = anchor.replace(reEnd, '\');">'); 
+  if(linkOrSelf){
+    anchor = anchor.replace(reEnd, '\');" class="title" ');
   }
   else{
     anchor = anchor.replace(reEnd, '\');"');
-  } 
+  }
 
   return anchor;
 }
