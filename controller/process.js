@@ -70,7 +70,6 @@ function updateUser(response, pageType){
     displayProgressDetails('posts analyzed.');
     populateSubreddits();
     displaySubredditMenu();
-    console.log(User);
     window.onbeforeunload = leaveAfterLoadWarning;
   }
 }
@@ -541,7 +540,6 @@ function anchorFormat(anchor){
     anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'http://reddit.com');
   }
   else{
-    console.log(anchor);
     anchor = anchor.replace(reHref, 'onclick="openInNewTab(\'');
   }
   
