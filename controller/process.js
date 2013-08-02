@@ -7,6 +7,8 @@ function prepare(){
   Subreddits = {};
   User.pageCount = 0;
   User.postCount = 0;
+  User.worstPosts = [];
+  User.bestPosts = [];
   hideErrorMessage();
   hideStatus();
 
@@ -21,6 +23,7 @@ function prepare(){
     displayProgressDetails('posts analyzed so far...');
     User.stop = false;
     getPage('first', userName);
+    window.onbeforeunload = leaveAfterLoadWarning;
   }
 }
 
@@ -53,8 +56,15 @@ function updateUser(response, pageType){
   
   /* These values are used to keep the user informed of progress */
   User[User.pageCount] = json;
-  User.pageCount++;
   User.postCount += json['postCount'];
+
+  /* 
+   * Look for the top 3 best and top 3 worst posts in this batch of 25 posts.
+   * Overwrite the older top/worst 3 if necessary.
+   */
+  getTopBestWorstPosts(User[User.pageCount]);
+
+  User.pageCount++;
 
   displayStatus(); 
   
@@ -70,7 +80,56 @@ function updateUser(response, pageType){
     displayProgressDetails('posts analyzed.');
     populateSubreddits();
     displaySubredditMenu();
-    window.onbeforeunload = leaveAfterLoadWarning;
+  }
+}
+
+/* 
+ * Populates the User object with two arrays containing the top 3 best posts
+ * and the top 3 worst posts.  If the user has less than 6 posts, then only
+ * the top 1 best and worst posts are shown.  If a user has one post, then
+ * both best and worst posts will be the same.
+ */
+function getTopBestWorstPosts(Posts){
+  
+  if(User.pageCount === 0){
+    User.worstPosts = [Posts[0], Posts[0], Posts[0]];
+    User.bestPosts = [Posts[0], Posts[0], Posts[0]];
+  }
+
+  var i = 0;
+  while(Posts[i] !== undefined){
+    if(parseInt(Posts[i].karma) > parseInt(User.bestPosts[0].karma)){
+      User.bestPosts[2] = User.bestPosts[1];
+      User.bestPosts[1] = User.bestPosts[0];
+      User.bestPosts[0] = Posts[i];
+    }
+    else if(parseInt(Posts[i].karma) > parseInt(User.bestPosts[1].karma)){
+      User.bestPosts[2] = User.bestPosts[1];
+      User.bestPosts[1] = Posts[i];
+    }
+    else if(parseInt(Posts[i].karma) > parseInt(User.bestPosts[2].karma)){
+      User.bestPosts[2] = Posts[i];
+    }
+    else if(parseInt(Posts[i].karma) < parseInt(User.worstPosts[0].karma)){
+      User.worstPosts[2] = User.worstPosts[1];
+      User.worstPosts[1] = User.worstPosts[0];
+      User.worstPosts[0] = Posts[i];
+    }
+    else if(parseInt(Posts[i].karma) < parseInt(User.worstPosts[1].karma)){
+      User.worstPosts[2] = User.worstPosts[1];
+      User.worstPosts[1] = Posts[i];
+    }
+    else if(parseInt(Posts[i].karma) < parseInt(User.worstPosts[2].karma)){
+      User.worstPosts[2] = Posts[i];
+    }
+    i++;
+  }
+
+  if(User.pageCount === 0){
+    if(User.postCount < 6){
+      User.worstPosts = [User.worstPosts[0]];
+      User.bestPosts = [User.bestPosts[0]];
+    }
   }
 }
 
@@ -118,7 +177,7 @@ function populateSubreddits(){
   while(User[i] instanceof Object){
     j = 0;
     while(User[i][j] instanceof Object){
-
+      
       if(Subreddits[User[i][j].subreddit] === undefined){
         Subreddits[User[i][j].subreddit] = 1;
       }
@@ -154,8 +213,7 @@ function readyView(view, subView, type){
       case 'Overview':
         showLoadingOverlay(User.currentViewId); 
         User.currentViewId = 'overview-page';
-        var Posts = readyPostsForOverview(); 
-        displayOverview(Posts);
+        displayOverview();
         hideLoadingOverlay(User.currentViewId);
         break;
       case 'Subreddits':
@@ -235,12 +293,23 @@ function loadPost(type, Post){
       Temp.comment = Post.userComment;
       break;
     case 'link':
-      if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('redditmedia') !== -1){
-        Temp.thumbnail = Post.thumbnail;
+      if(Post.thumbnail === undefined){
+        url = getUrlFromTitle(Post.title);
+        Temp.thumbnail = '<a class="thumbnail" onclick="openInNewTab(\'' + url + '\');">'
+                       + '<img src="assets/images/unknown.png" width="70" height="70" /></a>';
+      } 
+      else if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('redditmedia') !== -1){
+        Temp.thumbnail = alterUrlFromThumbnail(Post.thumbnail);
+      }
+      else if(Post.thumbnail !== undefined && Post.thumbnail.indexOf('nsfw') !== -1){
+        url = getUrlFromTitle(Post.title);
+        Temp.thumbnail = '<a class="thumbnail" onclick="openInNewTab(\'' + url + '\');">'
+                       + '<img src="assets/images/nsfw.png" width="70" height="70" /></a>';
       }
       else{
-        Temp.thumbnail = '<a class="thumbnail" href=#>'
-                       + '<img src="assets/images/nsfw.png" width="70" height="70" /></a>';
+        url = getUrlFromTitle(Post.title);
+        Temp.thumbnail = '<a class="thumbnail" onclick="openInNewTab(\'' + url + '\');">'
+                       + '<img src="assets/images/unknown.png" width="70" height="70" /></a>';
       }
       break;
     default:
@@ -250,36 +319,22 @@ function loadPost(type, Post){
   return Temp;
 }
 
-/* Retrieves the worst post by karma, and best post by karma */
-function readyPostsForOverview(){
-  var Posts = {};
+function getUrlFromTitle(title){
+  var re = /href=".+"/;
+  var matches = title.match(re);
 
-  var min = parseInt(User[0][0].karma);
-  var max = parseInt(User[0][0].karma);
+  matches = matches[0].replace('href="', '');
+  matches = matches.replace('"', ''); 
+  
+  console.log(matches);
+  return matches;
+}
 
-  var i = 0,
-      j = 0,
-      k = 0;
-  while(User[i] instanceof Object){
-    j = 0;
-    while(User[i][j] instanceof Object){
-      
-      if(parseInt(User[i][j].karma) <= min){
-        min = parseInt(User[i][j].karma);     
-        Posts[0] = loadPost(User[i][j].postType, User[i][j]);
-      }
-
-      if(parseInt(User[i][j].karma) >= max){
-        max = parseInt(User[i][j].karma);
-        Posts[1] = loadPost(User[i][j].postType, User[i][j]);
-      }
-      
-      j++;
-    }
-    i++;
-  }
-
-  return Posts;
+function alterUrlFromThumbnail(thumbnail){
+  thumbnail = thumbnail.replace('href="', 'onclick="openInNewTab(\'');
+  thumbnail = thumbnail.replace('" >', '\');">');
+  
+  return thumbnail;
 }
 
 /* 
@@ -509,7 +564,7 @@ function formatForAreaChart(months){
  * history and accidentally close the tab/window.
  */
 function leaveAfterLoadWarning(){
-  return 'All information gathered for ' + User.name + ' will disappear...';
+  return 'All information gathered for ' + User.name + ' will be lost.';
 }
 
 /*

@@ -375,6 +375,11 @@ display:block;
   cursor: pointer;
   color: blue;
 }
+
+.thumbnail{
+  cursor: pointer;
+}
+
 /* Overview View */
 #overview-page{
   display: none;

@@ -153,7 +153,7 @@ function formatTitle(subView){
 }
 
 /* Formats and displays all the data in the overview view */
-function displayOverview(Posts){
+function displayOverview(){
   toggleFocus(document.getElementById('menu-overview'));
 
   var trophies = User[0].trophies; 
@@ -176,22 +176,29 @@ function displayOverview(Posts){
     trophyText += '</div>';
   }
 
-  var worstTitle = '<div style="clear:both"></div><p class="overview-heading">Post with least karma</p>';
-  if(Posts[0] !== undefined){
-    var worstPost = formatSinglePost(Posts[0]);
-  }
-  else{
-    var worstPost = '';
-  }
-  var bestTitle = '<p class="overview-heading">Post with most karma</p>';
-  if(Posts[1] !== undefined){
-    var bestPost = formatSinglePost(Posts[1]);
-  }
-  else{
-    var bestPost = '';
+  var worstTitle = '<div style="clear:both"></div><p class="overview-heading">Posts with least karma</p>';
+
+  var worstPosts = '';
+  var i = 0;
+  while(User.worstPosts[i] !== undefined){
+    var temp = loadPost(User.worstPosts[i].postType, User.worstPosts[i]);
+    worstPosts += formatSinglePost(temp);
+
+    i++;
   }
 
-  document.getElementById('overview-page').innerHTML = header + trophyText + worstTitle + worstPost + bestTitle + bestPost;
+  var bestTitle = '<p class="overview-heading">Posts with most karma</p>';
+
+  var bestPosts = '';
+  var i = 0;
+  while(User.bestPosts[i] !== undefined){
+    var temp = loadPost(User.bestPosts[i].postType, User.bestPosts[i]);
+    bestPosts += formatSinglePost(temp);
+
+    i++;
+  }
+
+  document.getElementById('overview-page').innerHTML = header + trophyText + worstTitle + worstPosts + bestTitle + bestPosts;
   formatTrophies();
 }
 
@@ -225,7 +232,7 @@ function toggleFocus(currentButton, innerButton){
 
     if(Display.previousButton === undefined){
       Display.currentButton.style.backgroundColor = '#77ad77';
-      Display.currentButton.style.Color = '#f9f9f9';
+      Display.currentButton.style.color = '#f9f9f9';
     }
     else if(Display.previousButton === Display.currentButton){
       return false;
