@@ -1,3 +1,9 @@
+/* Declare User in the global scope for later access */
+var User = {};
+User.stop = true;
+
+var Subreddits = {};
+
 /*
  * If the user name is valid, prepare the display to give the user updates
  * while the scraper does its thing.

@@ -24,7 +24,6 @@ $_SESSION['auth'] = KEY;
 
     <div id="page-container">
 
-      <!-- Menu -->
       <div id="title-container">
         <a href="http://redalytics.poba.co">Redalytics</a>
         <p>beta</p>
@@ -41,16 +40,12 @@ $_SESSION['auth'] = KEY;
           <li id="menu-chart"><a onclick="readyView(this.innerHTML);" class="main">Charts</a></li>
         </ul>
       </div>
-      <!-- End Menu -->
       
-      <!-- Loading overlay -->
       <div id="loading-overlay" style="display: none">
         <p id="loading-overlay-gif"></p>
         <p id="loading-overlay-status"></p>
       </div>
-      <!-- End loading overlay -->
       
-      <!-- Home page -->
       <div id="home-page">    
         <h2>Welcome to Redalytics</h2>
         <p id="details">Enter a reddit user name below to get started</p>
@@ -72,7 +67,7 @@ $_SESSION['auth'] = KEY;
             <li>
               Enter reddit user's account name and hit enter or click 'Analyze'.  Redalytics
               scrapes the user's post history and returns the post data back to the browser 
-              one page at a time.  To stop this process at any time, hit the 'Stop' button 
+              one page at a time.  To stop this process, hit the 'Stop' button 
               and you'll be able to view the data that has been returned so far.
             </li>
             <li>
@@ -80,7 +75,7 @@ $_SESSION['auth'] = KEY;
               about your data.  There is no database, no Google Analytics tracking, no record of
               IP addresses, etc.  I just retrieve your post history and hand it off to your browser
               like it's a hot potato.  When you close this tab or reload the page, all information
-              is gone and you'll have to 're-analyze' if you want to see the data again.
+              is gone and you'll have to 're-analyze' the user if you want to see the data again.
             </li>
             <li>
               <em>I don't trust you anyway!</em> If I get enough requests, I'll just open source
@@ -88,12 +83,10 @@ $_SESSION['auth'] = KEY;
               anyway.
             </li>
             <li>
-              Navigation is sort of wonky given that this is my first attempt at a single-page
-              website.  I've chosen to have all reddit links open in a new tab by default, and
-              give the user a warning if they navigate away from the site after loading a user.
-              This is sort of annoying, I know -- but I figured that it'd be even more annoying
-              to wait to have a user's post history scraped and then lose it by accidentally
-              closing the tab.
+              Navigation is sort of wonky given that this is my first attempt at a single-page website. 
+              I've chosen to have all reddit links open in a new tab by default, and to
+              give the user a warning if he/she attempts to navigate away from the site after 
+              spending the time to analyze a user.
             </li>
             <li>
               Have a suggestion?  A criticism?  Find a bug?  <a href="http://poba.co/contact.php">Contact me</a>
@@ -102,42 +95,30 @@ $_SESSION['auth'] = KEY;
           </ul>
         </div>
       </div>
-      <!-- End home page -->
 
-      <!-- Overview page -->
       <div id="overview-page"></div>
-      <!-- End overview page -->
 
-      <!-- Subreddits page -->
-      <div id="subreddits-page">
-      </div>
-      <!-- End subreddit page -->
+      <div id="subreddits-page"></div>
 
-      <!-- Chart page -->
       <div id="charts-page">
         <div id="pie-chart"></div>
         <div id="column-chart"></div>
         <div id="area-chart"></div>
       </div>
-      <!-- End chart page -->
 
-      <!-- Search results page -->
       <div id="search-page"></div>
-      <!-- End search results page -->
 
-      <!-- Foooter -->
       <div style="clear:both"></div>
+
       <div id="footer">
         <p><a href="http://poba.co">POBAco</a></p>
       </div>
-      <!-- End footer -->
     </div>
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
     </script>
-    <script src="controller/user.js"></script>
     <script src="controller/request.js"></script>
     <script src="controller/process.js"></script>
     <script src="view/display.js"></script>

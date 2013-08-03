@@ -111,6 +111,7 @@ function displayPosts(Posts, subView, type){
   document.getElementById('subreddits-page').innerHTML = title + postHtmlString;
 }
 
+/* Formats a single post reddit-style for output. */
 function formatSinglePost(Post){
 
   var postHtmlString = '<div style="clear:both"></div>';
@@ -137,8 +138,6 @@ function formatSinglePost(Post){
 
   return postHtmlString;
 }
-
-
 
 /* Formats the title header and menu for a given subreddit view */
 function formatTitle(subView){
@@ -199,12 +198,6 @@ function displayOverview(){
   }
 
   document.getElementById('overview-page').innerHTML = header + trophyText + worstTitle + worstPosts + bestTitle + bestPosts;
-  formatTrophies();
-}
-
-function formatTrophies(){
-  var trophies = User[0].trophies;
-  
 }
 
 /* Hide the previous view and show the loading overlay */
