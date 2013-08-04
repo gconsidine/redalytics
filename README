@@ -1,0 +1,16 @@
+Redalytics
+
+Redalytics is a tool that allows a user to examine a reddit account's post
+history conveniently.  All user data is scraped, then handed off to the 
+client asynchronously one page of post history at a time.  No information is
+stored about the reddit account being analyzed or the user visiting Redalytics.
+Once the user closes the Redalytics tab/window, all information for the 
+given account will be gone.
+
+Thanks to:
+
+reddit.com
+PHP Simple HTML DOM Parser @ simplehtmldom.sourceforge.net
+Google Charts
+
+

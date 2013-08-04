@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 require_once 'config/config.inc.php';
 
 /* Sets an authentication key used in Ajax requests for the session */
@@ -26,7 +24,6 @@ $_SESSION['auth'] = KEY;
 
       <div id="title-container">
         <a href="http://redalytics.poba.co">Redalytics</a>
-        <p>beta</p>
         <!--<input type="search" placeholder="Search user history" />-->
       </div>
       
@@ -71,16 +68,15 @@ $_SESSION['auth'] = KEY;
               and you'll be able to view the data that has been returned so far.
             </li>
             <li>
-              <em>Do you you do something creepy with my data?</em> Nope.  I really don't care 
+              <em>"Do you you do something creepy with my data?"</em> Nope.  I really don't care 
               about your data.  There is no database, no Google Analytics tracking, no record of
               IP addresses, etc.  I just retrieve your post history and hand it off to your browser
               like it's a hot potato.  When you close this tab or reload the page, all information
               is gone and you'll have to 're-analyze' the user if you want to see the data again.
             </li>
             <li>
-              <em>I don't trust you anyway!</em> If I get enough requests, I'll just open source
-              the project so you can see the whole thing for yourself.  I'll do this eventually
-              anyway.
+              <em>"I don't trust you anyway!"</em> You can take a look at the code 
+              <a href="https://github.com/gconsidine/redalytics">here.</a>
             </li>
             <li>
               Navigation is sort of wonky given that this is my first attempt at a single-page website. 
