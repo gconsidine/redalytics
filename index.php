@@ -85,7 +85,7 @@ $_SESSION['auth'] = KEY;
               spending the time to analyze a user.
             </li>
             <li>
-              Have a suggestion?  A criticism?  Find a bug?  <a href="http://greg-considine.com/#contactMe">Contact me</a>
+              Have a suggestion?  A criticism?  Find a bug?  <a href="http://greg-considine.com">Contact me</a>
               and I'll see what I can do.
             </li>
           </ul>
@@ -107,7 +107,7 @@ $_SESSION['auth'] = KEY;
       <div style="clear:both"></div>
 
       <div id="footer">
-        <p><a href="http://greg-considine">greg-considine.com</a></p>
+        <p><a href="http://greg-considine.com">greg-considine.com</a></p>
       </div>
     </div>
 
