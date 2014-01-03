@@ -79,13 +79,13 @@ $_SESSION['auth'] = KEY;
               <a href="https://github.com/gconsidine/redalytics">here.</a>
             </li>
             <li>
-              Navigation is sort of wonky given that this is my first attempt at a single-page website. 
+              Navigation is sort of wonky given that this is my first attempt at a single-page application. 
               I've chosen to have all reddit links open in a new tab by default, and to
               give the user a warning if he/she attempts to navigate away from the site after 
               spending the time to analyze a user.
             </li>
             <li>
-              Have a suggestion?  A criticism?  Find a bug?  <a href="http://poba.co/contact.php">Contact me</a>
+              Have a suggestion?  A criticism?  Find a bug?  <a href="http://greg-considine.com/#contactMe">Contact me</a>
               and I'll see what I can do.
             </li>
           </ul>
@@ -107,7 +107,7 @@ $_SESSION['auth'] = KEY;
       <div style="clear:both"></div>
 
       <div id="footer">
-        <p><a href="http://poba.co">POBAco</a></p>
+        <p><a href="http://greg-considine">greg-considine.com</a></p>
       </div>
     </div>
 
