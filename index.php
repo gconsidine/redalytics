@@ -23,7 +23,7 @@ $_SESSION['auth'] = KEY;
     <div id="page-container">
 
       <div id="title-container">
-        <a href="http://redalytics.poba.co">Redalytics</a>
+        <a href="http://redalytics.greg-considine.com">Redalytics</a>
         <!--<input type="search" placeholder="Search user history" />-->
       </div>
       
